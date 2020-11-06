@@ -32,6 +32,10 @@ CASE_TR_W= 2.5; // [2.5, 3, 3.5, 4, 4.5, 5]
 CASE_TR_L= 0; // [0:100]
 // Case faces
 CASE_N= 10; //[3,4,5,6,7,8]
+// Case corners rounding
+CASE_ROUNDING= 3; // [0, 1,1.5, 2, 2.5, 3, 4]
+// Case corners rounding mode
+CASE_ROUNDING_MODE="3d"; // ["sharp", "2d", "3d"]
 // Case thread starts multiplier (starts = faces*multiplier)
 CASE_TR_NN= 1;
 // So many pen will be wisible from the case to take it out
@@ -603,6 +607,36 @@ case_tr_l= CASE_TR_L == 0 ? ((CASE_TURN*CASE_N*CASE_TR_NN)*CASE_TR_W) : min(CASE
 
 case_tr_n= CASE_TR_L == 0 ? CASE_N*CASE_TR_NN : max(floor(CASE_TR_L / (CASE_TURN * CASE_TR_W * CASE_N))*CASE_N, CASE_N);
 
+
+module case_basis(h, d, n, delta, mode="sharp", cut_top=true)
+{
+    dd= (delta*2)/cos(180/n);
+    if (mode == "2d")
+    {
+        linear_extrude(height = h)
+        offset(r = delta)
+        circle(d= d-dd, $fn=n);
+    }
+    else if (mode == "3d")
+    {
+        difference()
+        {
+            translate([0,0,cut_top ? dd/2 : 0])
+            minkowski()
+            {
+                cylinder(h= h-dd/2, d= d-dd, $fn=n);
+                sphere(r=delta);
+            }
+            translate([0, 0, h])
+            cylinder(h= dd*2, d= d, $fn=n);
+            translate([0, 0, -dd*2])
+            cylinder(h= dd*2, d= d, $fn=n);
+        }
+    }
+    else
+        cylinder(h= h, d= d, $fn=n);
+}
+
 module p_model(dsc, turn=false)
 {
     // All cylynders made with +/-TOLLERANCE by hight, so lift all on that balue
@@ -652,7 +686,7 @@ module case_dn ()
         {
             translate([0, 0, case_dn_l - case_tr_l -0.1])
             metric_thread (diameter=case_tr_w_dd, pitch= case_tr_l/(CASE_TURN * case_tr_n), length=case_tr_l + 0.1, internal=false, n_starts=case_tr_n, thread_size=CASE_TR_W, groove=false, square=false, rectangle=0, angle=60, taper=0, leadin=1, leadfac=1.0, test=false);
-            cylinder(h= case_dn_l - case_tr_l, d= pen_c_d, $fn=CASE_N);
+            case_basis(h= case_dn_l - case_tr_l, d= pen_c_d, n=CASE_N, delta=CASE_ROUNDING, mode=CASE_ROUNDING_MODE);
             for (n=[0:CASE_N-1])
                 translate([0,0,case_dn_l - case_tr_l])
                 rotate([0,0,n*(180 - 180*(CASE_N - 2) / CASE_N)])
@@ -695,7 +729,7 @@ module case_up()
 {
     difference()
     {
-        cylinder(h= case_up_l + case_tr_l, d= pen_c_d, $fn=CASE_N);
+        case_basis(h= case_up_l + case_tr_l, d= pen_c_d, n=CASE_N, delta=CASE_ROUNDING, mode=CASE_ROUNDING_MODE, cut_top=false);
         metric_thread (diameter=case_tr_w_dd + 2*TOLLERANCE, pitch= case_tr_l/(CASE_TURN*case_tr_n), length=case_tr_l, internal=true, n_starts=case_tr_n, thread_size=CASE_TR_W, groove=false, square=false, rectangle=0, angle=60, taper=0, leadin=3, leadfac=1.0, test=false);
         translate([0, 0, -pen_l + case_tr_l + case_up_l - case_top_bottom_wall])
         pen_model_up();
