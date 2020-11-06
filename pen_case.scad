@@ -121,13 +121,6 @@ LATCH_W= CASE_WALL;
 $fn= FINESS;
 
 /*
-//PEN_UP_D= 13;
-//PEN_UP_CLIP_DD= 17 - PEN_UP_D;
-//PEN_UP_CLIP_W= 6;
-//PEN_UP_L= 50;
-//PEN_DN_D= 13;
-*/
-/*
 // Lamy 2000
 // First cylinder diameter
 PEN_1_D=10;
@@ -581,13 +574,7 @@ desc_fixed1= [for(d = desc) [d[d_index], d[d_l], ((sum_dn_list(desc,d[d_index]+1
 desc_fixed2= [for(d = desc) [d[d_index], d[d_l], ((sum_up_list(desc,d[d_index]-1,d_l) < CASE_TAKE) ? max(slice_up_list(desc,d[d_index],d_d)) : d[d_d]), ((sum_up_list(desc,d[d_index]-1,d_l) < CASE_TAKE) ? max(slice_up_list(desc,d[d_index],d_cdd)) : d[d_cdd]), ((sum_up_list(desc,d[d_index]-1,d_l) < CASE_TAKE) ? max(slice_up_list(desc,d[d_index],d_cw)) : d[d_cw])]];
 
 pen_l= pen_length + 2*TOLLERANCE;
-//pen_u_d1= PEN_UP_D + 2*TOLLERANCE;
-//pen_u_d2= PEN_UP_D + 2*PEN_UP_CLIP_DD + 2*TOLLERANCE;
 pen_max_d= max(slice_dn_list(desc_fixed2, 0, d_cdd));
-//pen_u_l= PEN_UP_L + TOLLERANCE;
-//pen_c_w= PEN_UP_CLIP_W + 2*TOLLERANCE;
-//pen_d_d= PEN_DN_D + 2*TOLLERANCE;
-//pen_d_l= pen_l - pen_u_l;
 
 case_length= max(CASE_MIN_LENGTH, pen_l + 2*CASE_TOP_BOTTOM_WALL_MIN);
 
@@ -605,12 +592,9 @@ echo("Pen max D:", pen_max_d);
 
 case_wall= (pen_c_d*cos(180/CASE_N) - (pen_max_d + CASE_TR_W + TOLLERANCE)) / 4;
 
-//case_tr_w_dd= max(pen_d_d, pen_u_d2) + 2*CASE_WALL + CASE_TR_W - TOLLERANCE;
 case_tr_w_dd= pen_max_d + 2*case_wall + CASE_TR_W - TOLLERANCE;
 
-
 echo("Case wall:", case_wall, "Case D:", pen_c_d);
-
 
 case_tr_l= CASE_TR_L == 0 ? ((CASE_TURN*CASE_N*CASE_TR_NN)*CASE_TR_W) : min(CASE_TR_L, case_dn_l - CASE_TAKE);
 
@@ -657,35 +641,6 @@ module pen_model_dn()
     p_model(desc_fixed1, false);
 }
 
-/*
-module pen_model(turn=false)
-{
-    delta_u= (pen_u_d1 > pen_d_d ? 0 : 0.01);
-    delta_d= (pen_u_d1 > pen_d_d ? 0.01 : 0);
-
-    translate([0, 0, pen_l - pen_u_l - delta_u])
-    union()
-    {
-        cylinder(d= pen_u_d1, h= pen_u_l + delta_u);
-        
-        if(turn)
-        {
-            cylinder(d= pen_u_d2, h= pen_u_l + delta_u);
-        }
-        else
-        {
-            intersection()
-            {
-                cylinder(d= pen_u_d2, h= pen_u_l + delta_u);
-                translate([-pen_c_w/2, 0, 0])
-                cube([pen_c_w, pen_u_d2/2, pen_u_l + delta_u], center= false);
-            }
-        }
-    }
-    cylinder(d= pen_d_d, h= pen_d_l + delta_d);
-}
-*/
-//pen_model(true);
 module case_dn ()
 {
     difference()
@@ -837,9 +792,4 @@ module tb_txt(rotate=false)
         linear_extrude(height= TBTEXT_DEPTH)
         text(text=TBTEXT_TEXT, font=TBTEXT_FONT, size=TBTEXT_SIZE, valign="center", halign="center");
 }
-//!union()
-//{
-//    latch();
-//    vtxt(text="test",font="Liberation Sans",size=15);
-//}
 
