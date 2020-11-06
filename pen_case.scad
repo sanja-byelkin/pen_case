@@ -120,6 +120,9 @@ PEN_6_CLIP_W=0;
 LATCH_W= CASE_WALL;
 $fn= FINESS;
 
+/*******************************
+    Some known pen model data
+********************************/
 /*
 // Lamy 2000
 // First cylinder diameter
