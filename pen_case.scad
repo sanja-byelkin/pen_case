@@ -621,16 +621,16 @@ module case_basis(h, d, n, delta, mode="sharp", cut_top=true)
     {
         difference()
         {
-            translate([0,0,cut_top ? dd/2 : 0])
+            translate([0,0,cut_top ? delta : 0])
             minkowski()
             {
-                cylinder(h= h-dd/2, d= d-dd, $fn=n);
+                cylinder(h= h-dd/2 + delta, d= d-dd, $fn=n);
                 sphere(r=delta);
             }
             translate([0, 0, h])
-            cylinder(h= dd*2, d= d, $fn=n);
+            cylinder(h= dd*2, d= d + 0.2, $fn=n);
             translate([0, 0, -dd*2])
-            cylinder(h= dd*2, d= d, $fn=n);
+            cylinder(h= dd*2, d= d + 0.2, $fn=n);
         }
     }
     else
