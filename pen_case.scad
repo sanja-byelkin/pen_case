@@ -21,23 +21,23 @@ CASE_TOP_BOTTOM_WALL_MIN= 1.6;
 // Thikness of side walls
 CASE_WALL= 1.2; // [3,2.4,2,1.8,1.6,1.2]
 // Latch pin hight
-LATCH_PIN_H= 1.6; // [3,2.4,2,1.8,1.6,1.2]
+LATCH_PIN_H= 2; // [3,2.4,2,1.8,1.6,1.2]
 // Latch hight
-LATCH_H= 1.6; // [3,2.4,2,1.8,1.6,1.2]
+LATCH_H= 2.4; // [3,2.4,2,1.8,1.6,1.2]
 // Case close in turns
-CASE_TURN= 0.5; // [0.3333333, 0.5, 1, 1.5, 2, 3]
+CASE_TURN= 1/3; // [0.3333333, 0.5, 1, 1.5, 2, 3]
 // Case thread width
 CASE_TR_W= 2.5; // [2.5, 3, 3.5, 4, 4.5, 5]
-// Case thread length (0 - autometith length and multiplier)
+// Case thread length (not 0 - automatic length and multiplier)
 CASE_TR_L= 0; // [0:100]
 // Case faces
-CASE_N= 10; //[3,4,5,6,7,8]
+CASE_N= 3; //[3,4,5,6,7,8]
 // Case corners rounding
-CASE_ROUNDING= 3; // [0, 1,1.5, 2, 2.5, 3, 4]
+CASE_ROUNDING= 10; // [0, 1,1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]
 // Case corners rounding mode
-CASE_ROUNDING_MODE="3d"; // ["sharp", "2d", "3d"]
+CASE_ROUNDING_MODE="2.5d"; // ["sharp", "2d", "3d", "2.5d"]
 // Case thread starts multiplier (starts = faces*multiplier)
-CASE_TR_NN= 1;
+CASE_TR_NN= 3;
 // So many pen will be wisible from the case to take it out
 CASE_TAKE= 9;
 // Latch maximum length
@@ -51,11 +51,11 @@ VTEXT_TEXT= "Noodler's Boston Safety";
 // Vertical text font
 VTEXT_FONT= "Liberation Sans;style=bold";
 // Vertical text size
-VTEXT_SIZE= 6;
+VTEXT_SIZE= 7.8;
 // Vertical text depth
 VTEXT_DEPTH= 0.6;
 // Vertical text skip ratio (1 each face, 2 each second ...)
-VTEXT_RATIO= 2; //[1,2,3,4,5,6,7,8]
+VTEXT_RATIO= 1; //[1,2,3,4,5,6,7,8]
 // Vertical text turn
 VTEXT_TURN=false; //[true,false]
 // Top/bottom text
@@ -65,7 +65,7 @@ TBTEXT_FONT= "Liberation Sans;style=bold";
 // Top/bottom text size
 TBTEXT_SIZE= 6;
 // Top/bottom text turn angle
-TBTEXT_ANGLE= 0;
+TBTEXT_ANGLE= 30;
 // Top/bottom text depth
 TBTEXT_DEPTH= 0.6;
 
