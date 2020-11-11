@@ -726,20 +726,6 @@ module case_dn ()
 }
 
 
-module latch(cut=false)
-{
-    pad= (CASE_N == 3 ? 10 : (CASE_N == 4 ? 6 : 3));
-    lcalc=  pen_c_d * cos(((180*(CASE_N - 2) / CASE_N) / 2)) - LATCH_W*pad;
-    l= min(lcalc, LATCH_MAX_L);
-
-    rotate([0,0,-(180*(CASE_N - 2) / CASE_N)/2])
-    translate([-l/2+LATCH_PIN_H,-(LATCH_W/2-pen_c_d*cos(180/CASE_N)/2),0])
-    if (cut)
-        latch_cut(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H, cut=TOLLERANCE);
-    else
-        latch_shape(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H);
-}
-
 module case_up()
 {
     difference()
@@ -756,6 +742,22 @@ module case_up()
         tb_txt();
     }
 }
+
+
+module latch(cut=false)
+{
+    pad= (CASE_N == 3 ? 10 : (CASE_N == 4 ? 6 : 3));
+    lcalc=  pen_c_d * cos(((180*(CASE_N - 2) / CASE_N) / 2)) - LATCH_W*pad;
+    l= min(lcalc, LATCH_MAX_L);
+
+    rotate([0,0,-(180*(CASE_N - 2) / CASE_N)/2])
+    translate([-l/2+LATCH_PIN_H,-(LATCH_W/2-pen_c_d*cos(180/CASE_N)/2),0])
+    if (cut)
+        latch_cut(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H, cut=TOLLERANCE);
+    else
+        latch_shape(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H);
+}
+
 
 module latch_shape(w,l,h1,h2,o=0)
 {
