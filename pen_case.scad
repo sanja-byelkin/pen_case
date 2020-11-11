@@ -654,6 +654,7 @@ module case_basis(h, d, n, delta, mode="sharp", cut_top=true, dv)
 module p_model(dsc, turn=false)
 {
     // All cylynders made with +/-TOLLERANCE by hight, so lift all on that balue
+    rotate([0,0,-90])
     translate([0, 0, TOLLERANCE])
     for(i = [0:1:PEN_N-1])
     {
