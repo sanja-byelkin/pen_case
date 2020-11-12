@@ -24,6 +24,8 @@ CASE_WALL= 1.2; // [3,2.4,2,1.8,1.6,1.2]
 LATCH_PIN_H= 2; // [3,2.4,2,1.8,1.6,1.2]
 // Latch hight
 LATCH_H= 2.4; // [3,2.4,2,1.8,1.6,1.2]
+// Latch final depth (starts with thikness of the case wall)
+LATCH_DEPTH= 2.4; // [3,2.4,2,1.8,1.6,1.2]
 // Case close in turns
 CASE_TURN= 1/3; // [0.3333333, 0.5, 1, 1.5, 2, 3]
 // Case thread width
@@ -37,7 +39,9 @@ CASE_ROUNDING= 10; // [0, 1,1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]
 // Case corners rounding mode
 CASE_ROUNDING_MODE="2.5d"; // ["sharp", "2d", "3d", "2.5d"]
 // Case thread starts multiplier (starts = faces*multiplier)
-CASE_TR_NN= 3;
+CASE_TR_NN= 1;
+// Case thread space multiplier (as above but space)
+CASE_TR_SPACE_RATIO= 2;
 // So many pen will be wisible from the case to take it out
 CASE_TAKE= 9;
 // Latch maximum length
@@ -603,9 +607,13 @@ case_tr_w_dd= pen_max_d + 2*case_wall + CASE_TR_W - TOLLERANCE;
 
 echo("Case wall:", case_wall, "Case D:", pen_c_d);
 
-case_tr_l= CASE_TR_L == 0 ? ((CASE_TURN*CASE_N*CASE_TR_NN)*CASE_TR_W) : min(CASE_TR_L, case_dn_l - CASE_TAKE);
+case_tr_l= CASE_TR_L == 0 ? ((CASE_TURN*CASE_N*CASE_TR_NN)*CASE_TR_W*CASE_TR_SPACE_RATIO) : min(CASE_TR_L, case_dn_l - CASE_TAKE);
 
 case_tr_n= CASE_TR_L == 0 ? CASE_N*CASE_TR_NN : max(floor(CASE_TR_L / (CASE_TURN * CASE_TR_W * CASE_N))*CASE_N, CASE_N);
+
+latch_add_depth= min(max(CASE_WALL, LATCH_DEPTH - CASE_WALL), CASE_WALL+ CASE_TR_W);
+
+echo("latch added depth:", latch_add_depth);
 
 
 module rounding(h, d, n, delta, mode, cut_top)
@@ -753,47 +761,90 @@ module latch(cut=false)
     rotate([0,0,-(180*(CASE_N - 2) / CASE_N)/2])
     translate([-l/2+LATCH_PIN_H,-(LATCH_W/2-pen_c_d*cos(180/CASE_N)/2),0])
     if (cut)
-        latch_cut(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H, cut=TOLLERANCE);
+        latch_cut(w=LATCH_W, l=l, h1=LATCH_PIN_H, h2=LATCH_H, cut=TOLLERANCE, l_pin= latch_add_depth);
     else
-        latch_shape(w=LATCH_W,l=l,h1=LATCH_PIN_H,h2=LATCH_H);
+        latch_shape(w=LATCH_W, l=l, h1=LATCH_PIN_H, h2=LATCH_H, l_pin= latch_add_depth);
 }
 
+module quoter(l, h)
+{
+    hh= h*2*cos(45);
+    translate([l/2, 0, 0])
+    intersection()
+    {
+        rotate([45,0,0])
+        cube([l,hh,hh], center=true);
+        translate([-l/2, 0, 0])
+        cube([l,h,h], center=false);
+    }
+}
 
-module latch_shape(w,l,h1,h2,o=0)
+module l_pin(l, h, l_pin)
+{
+    difference()
+    {
+        mirror([0, 1, 0])
+        quoter(l=l, h=h);
+        translate([-1, -l_pin - h, -1])
+        cube([l+2,h,h+2], center=false);
+    }
+}
+
+//!l_pin(l=10, h=3, l_pin=2.4);
+
+
+module latch_shape(w, l, h1, h2, o=0, l_pin=0)
 {
     ww= w+2*o;
-    rotate([90,0,0])
-    translate([0,0,-ww/2])
-    linear_extrude(height = ww)
-    offset(delta= o)
-    polygon([[-h1,0],[0,h1],[h1, 0],[l-h1,0],[l-h1,-h2],[-h1,-h2]]);
+    union()
+    {
+        rotate([90,0,0])
+        translate([0,0,-ww/2])
+        linear_extrude(height = ww)
+        offset(delta= o)
+        polygon([[-h1,0],[0,h1],[h1, 0],[l-h1,0],[l-h1,-h2],[-h1,-h2]]);
+        if (l_pin > 0)
+        {
+            translate([-h1 - o, -ww/2 + 0.01, -h2 - o])
+            l_pin(l= l+2*o, h= h2+2*o, l_pin= l_pin);
+        }
+    }
 }
 
-module latch_cut(w,l,h1,h2,cut=0.3)
+//!latch_shape(w=1.2, l=15, h1=2.4, h2=3, o=0.5, l_pin=2);
+
+module latch_cut(w, l, h1, h2, cut=0.3, l_pin=0)
 {
     difference()
     {
         union()
         {
-            latch_shape(w,l,h1,h2,o=cut);
-            translate([-(h1+cut), -(w+2*cut)/2, -(h2+h1+2*cut)])
-            cube([l+cut,w+2*cut,h1+2*cut+0.02]);
-            translate([-(h1 + 2*cut - 0.01), -(w+2*cut+0.02)/2, -(h2+h1+2*cut+0.01)])
-            cube([cut+0.02,w+2*cut+0.02,h2+h1+3*cut+0.02]);
+            latch_shape(w, l, h1, h2, o=cut, l_pin=l_pin);
+            translate([-(h1+cut), -(w+2*cut)/2 - l_pin, -(h2+h1+2*cut)])
+            cube([l+cut, w + 2*cut +l_pin, h1 + 2*cut]);
+            translate([-(h1 + 2*cut), -(w + 2*cut)/2, -(h2+h1+2*cut)])
+            cube([cut*2, w + 2*cut, h2 + h1 + 3*cut]);
+            if (l_pin > 0)
+            {
+                translate([-(h1 + 2*cut), -(w + 2*cut)/2 + 0.01, -(h2+h1+2*cut)])
+                l_pin(l=cut*2, h= h2 + h1 + 3*cut, l_pin= l_pin);
+            }
         }
-        latch_shape(w,l,h1,h2,o=0);
-        translate([l-h1-0.01,-(w+2*cut+0.02)/2,-(h2+cut+0.01)])
-        cube([cut+0.02,w+2*cut+0.02,h2+2*cut+0.02]);
+        latch_shape(w, l, h1, h2, o=0, l_pin=l_pin);
+        translate([l - h1 - 0.01, -(w + 2*cut)/2 - (l_pin + cut + 1), -(h2 + h1 + cut + 1)])
+        cube([cut * 2 , w + 2*cut + l_pin + cut + 2, h2 + h1 + 2*cut + 2]);
         if (LATCH_SUPPORT)
         {
             for(i=[0:h1:l])
             {
-                translate([i-h1,-w/2,-(h2+h1+2*cut+0.01)])
-                cube([NOZZEL_D,w,h1+2*cut+0.02]);
+                translate([i-h1, -w/2 - l_pin,-(h2 + h1 + 2*cut + 0.01)])
+                cube([NOZZEL_D, (w + l_pin), h1 + 2*cut + 0.02]);
             }
         }
     }
 }
+
+//!latch_cut(w=1.2, l=15, h1=2.4, h2=3, cut=0.5, l_pin=2);
 
 if (PRESENT=="model")
 {
