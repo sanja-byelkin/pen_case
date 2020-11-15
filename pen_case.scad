@@ -4,10 +4,10 @@ include <../threads.scad>
 // Cyrcles interpolation
 FINESS=80; //[50:500]
 // Tollerance of the printer (width of cuts and increasing goven dimentions)
-TOLLERANCE= 0.3; // [0.1,0.2,0.3,0.54,0.5]
+TOLLERANCE= 0.3; // [0.1, 0.2, 0.3, 0.4, 0.5]
 // nozzle diameter
-NOZZEL_D= 0.4; // [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-//Build case or pen model
+NOZZEL_D= 0.4; // [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+//Build case or pen "models"
 PRESENT="case"; // ["case","model"]
 //PRESENT="model";
 
@@ -19,29 +19,29 @@ CASE_MIN_D= 0;
 // Minimum thickness of top and bottom
 CASE_TOP_BOTTOM_WALL_MIN= 1.6;
 // Thikness of side walls
-CASE_WALL= 1.2; // [3,2.4,2,1.8,1.6,1.2]
+CASE_WALL= 1.2; // [3, 2.4, 2, 1.8, 1.6, 1.2]
 // Latch pin hight
-LATCH_PIN_H= 2; // [3,2.4,2,1.8,1.6,1.2]
+LATCH_PIN_H= 2; // [3, 2.4, 2, 1.8, 1.6, 1.2]
 // Latch hight
-LATCH_H= 2.4; // [3,2.4,2,1.8,1.6,1.2]
+LATCH_H= 2.4; // [3, 2.4, 2, 1.8, 1.6, 1.2]
 // Latch final depth (starts with thikness of the case wall)
-LATCH_DEPTH= 2.4; // [3,2.4,2,1.8,1.6,1.2]
+LATCH_DEPTH= 2.4; // [3, 2.4, 2, 1.8, 1.6, 1.2]
 // Case close in turns
-CASE_TURN= 1/3; // [0.3333333, 0.5, 1, 1.5, 2, 3]
+CASE_TURN= 2/3; // [0.3333333, 0.6666666, 0.5, 1, 1.5, 2, 3]
 // Case thread width
 CASE_TR_W= 2.5; // [2.5, 3, 3.5, 4, 4.5, 5]
 // Case thread length (not 0 - automatic length and multiplier)
 CASE_TR_L= 0; // [0:100]
 // Case faces
-CASE_N= 3; //[3,4,5,6,7,8]
+CASE_N= 3; // [3, 4, 5, 6, 7, 8, 9, 10]
 // Case corners rounding
-CASE_ROUNDING= 10; // [0, 1,1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]
+CASE_ROUNDING= 9; // [0, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 9, 10, 11, 12]
 // Case corners rounding mode
 CASE_ROUNDING_MODE="2.5d"; // ["sharp", "2d", "3d", "2.5d"]
 // Case thread starts multiplier (starts = faces*multiplier)
-CASE_TR_NN= 1;
+CASE_TR_NN= 1; // [1, 2, 3, 4]
 // Case thread space multiplier (as above but space)
-CASE_TR_SPACE_RATIO= 2;
+CASE_TR_SPACE_RATIO= 1.5; // [1, 1.3333333, 1.5, 1.6666666, 2]
 // So many pen will be wisible from the case to take it out
 CASE_TAKE= 9;
 // Latch maximum length
@@ -50,7 +50,7 @@ LATCH_MAX_L= 15;
 LATCH_SUPPORT= true;
 
 /* [text] */
-// Vertical text
+// Vertical text (empty string to no text)
 VTEXT_TEXT= "Noodler's Boston Safety";
 // Vertical text font
 VTEXT_FONT= "Liberation Sans;style=bold";
@@ -58,11 +58,11 @@ VTEXT_FONT= "Liberation Sans;style=bold";
 VTEXT_SIZE= 7.8;
 // Vertical text depth
 VTEXT_DEPTH= 0.6;
-// Vertical text skip ratio (1 each face, 2 each second ...)
-VTEXT_RATIO= 1; //[1,2,3,4,5,6,7,8]
-// Vertical text turn
-VTEXT_TURN=false; //[true,false]
-// Top/bottom text
+// Vertical text skip ratio (1-each face, 2-each second ...)
+VTEXT_RATIO= 1; // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// Vertical text turn (top-bottom / bottom-top)
+VTEXT_TURN=false; // [true, false]
+// Top/bottom text (empty string to no text)
 TBTEXT_TEXT= "Boston";
 // Top/bottom text font
 TBTEXT_FONT= "Liberation Sans;style=bold";
@@ -74,54 +74,56 @@ TBTEXT_ANGLE= 30;
 TBTEXT_DEPTH= 0.6;
 
 /* [Pen] */
-// First cylinder diameter
+
+// First (top) cylinder diameter
 PEN_1_D=12.5;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=8.2;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=13;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=40;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4;
 // Second clip width
 PEN_2_CLIP_W=6;
 // Third cylinder diameter
 PEN_3_D=13;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=2.5;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=11;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=36;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=13;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=56.5;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=11;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=12;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
+
 
 /* [Hidden] */
 
@@ -133,202 +135,202 @@ $fn= FINESS;
 ********************************/
 /*
 // Lamy 2000
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=10;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=3.3;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=13.6;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=38.3;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=2.8;
 // Second clip width
 PEN_2_CLIP_W=5.1;
 // Third cylinder diameter
 PEN_3_D=14.3;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=22.8;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=13.3;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=74.4;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=0;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=0;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // Lamy Safari
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=13;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=3.5;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=14.7;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=56.4;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4;
 // Second clip width
 PEN_2_CLIP_W=13.5;
 // Third cylinder diameter
 PEN_3_D=14.7;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=5.5;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=12.5;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=73;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=11.7;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=1.6;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // Opus 88 KOLORO DEMO
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=16.3;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=7.7;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=16.5;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=42.3;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4.8;
 // Second clip width
 PEN_2_CLIP_W=8;
 // Third cylinder diameter
 PEN_3_D=16.5;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=13.5;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=15;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=83.3;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=0;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=0;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // Noodler's Konrad
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=12;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=6.9;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=14;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=39.1;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4;
 // Second clip width
 PEN_2_CLIP_W=6;
 // Third cylinder diameter
 PEN_3_D=14.5;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=13;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=12;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=74;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=0;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=0;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
 // Sexth clip overhang
 PEN_6_CLIP_DD=0;
@@ -337,204 +339,204 @@ PEN_6_CLIP_W=0;
 */
 /*
 // Noodler's Ahab
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=11;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=6.5;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=15.1;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=41.5;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=5.5;
 // Second clip width
 PEN_2_CLIP_W=8;
 // Third cylinder diameter
 PEN_3_D=15.2;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=12;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=14;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=69.2;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=11.5;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=10;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // Noodler's Boston safety pen
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=12.5;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=8.2;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=13;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=40;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4;
 // Second clip width
 PEN_2_CLIP_W=6;
 // Third cylinder diameter
 PEN_3_D=13;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=2.5;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=11;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=36;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=13;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=56.5;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=11;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=12;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // Jinhao X750
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=13.3;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=7.1;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=13.6;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=44.7;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=4.4;
 // Second clip width
 PEN_2_CLIP_W=7.3;
 // Third cylinder diameter
 PEN_3_D=13.6;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=4.2;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=0;
 // Third clip width
 PEN_3_CLIP_W=0;
 // Fourth cylinder diameter
 PEN_4_D=14.6;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=5;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=13.6;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=71.4;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=10.5;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=8;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
 */
 /*
 // A very old Waterman safety pen
-// First cylinder diameter
+// First (top) cylinder diameter
 PEN_1_D=14;
-// First cylinder length
+// First cylinder length (0 - no section)
 PEN_1_L=13;
-// First clip overhang
+// First clip overhang (0 - no clip)
 PEN_1_CLIP_DD=0;
 // First clip width
 PEN_1_CLIP_W=0;
 // Second cylinder diameter
 PEN_2_D=15.5;
-// Second cylinder length
+// Second cylinder length (0 - no section)
 PEN_2_L=10;
-// Second clip overhang
+// Second clip overhang (0 - no clip)
 PEN_2_CLIP_DD=0;
 // Second clip width
 PEN_2_CLIP_W=0;
 // Third cylinder diameter
 PEN_3_D=13.5;
-// Third cylinder length
+// Third cylinder length (0 - no section)
 PEN_3_L=27;
-// Third clip overhang
+// Third clip overhang (0 - no clip)
 PEN_3_CLIP_DD=5;
 // Third clip width
 PEN_3_CLIP_W=9;
 // Fourth cylinder diameter
 PEN_4_D=13.5;
-// Fourth cylinder length
+// Fourth cylinder length (0 - no section)
 PEN_4_L=7;
-// Fourth clip overhang
+// Fourth clip overhang (0 - no clip)
 PEN_4_CLIP_DD=0;
 // Fourth clip width
 PEN_4_CLIP_W=0;
 // Fifth cylinder diameter
 PEN_5_D=11.7;
-// Fifth cylinder length
+// Fifth cylinder length (0 - no section)
 PEN_5_L=73;
-// Fifth clip overhang
+// Fifth clip overhang (0 - no clip)
 PEN_5_CLIP_DD=0;
 // Fifth clip width
 PEN_5_CLIP_W=0;
 // Sixth cylinder diameter
 PEN_6_D=0;
-// Sexth cylinder length
+// Sexth cylinder length (0 - no section)
 PEN_6_L=0;
-// Sexth clip overhang
+// Sexth clip overhang (0 - no clip)
 PEN_6_CLIP_DD=0;
 // Fexth clip width
 PEN_6_CLIP_W=0;
