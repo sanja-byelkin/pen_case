@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>pen_case.scad Manual</title>
+    <style>
+      code {
+        font-family: Consolas,"courier new";
+        color: crimson;
+        background-color: #f1f1f1;
+        padding: 2px;
+        font-size: 105%;
+      }
+  </style>
+  </head>
+  <body>
+    <h1>Installation</h1>
+    <ol>
+      <li>Install (if not done) <a href="https://www.openscad.org/">OpenSCAD</a></li>
+      <li>Clone this repository or copy <code>pen_case.scad</code> in a
+      directory <code>pen_case</code> </li>
+      <li>Copy from <a
+      href="https://dkprojects.net/openscad-threads/">https://dkprojects.net/openscad-threads/</a>
+      <code>threads.scad</code> in a directory above <code>pen_case</code>.</li>
+    </ol>
+    <h1>Creating a pen case</h1>
+
+    <p>You can use OpenSCAD customizer or just change variables at the
+    beginning of the <code>pen_case.scad</code> manually if OpenSCAD editor
+    (or any other text editor).</p>
+
+    <h2>Print settings</h2>
+    <dl>
+      <dt><code>FINESS</code></dt>
+      <dd>How many faces will have cylinder approximation. More mean
+      smoother model but longer render time (50-80 is enough for useful
+      cases).</dd>
+      <dt><code>TOLLERANCE</code></dt>
+      <dd>A "gap" between real and printed object. depends on 3d printer
+      quality and printing speed</dd>
+      <dt><code>NOZZEL_D</code></dt>
+      <dd>Diameter of your printer nozzel, now used only to print latch
+      support.</dd>
+      <dt><code>PRESENT</code></dt>
+      <dd>Build pen "case" or pen "model".</dd>
+    </dl>
+    <h2>Case parameters</h2>
+    <dl>
+      <dt><code>CASE_MIN_LENGTH</code> and <code>CASE_MIN_D</code></dt>
+      <dd>You can use non 0 values if you want to build same size cases for
+      different pens.</dd>
+      <dt><code>CASE_TOP_BOTTOM_WALL_MIN</code> and <code>CASE_WALL</code></dt>
+      <dd>Minimal thickness of the walls.</dd>
+      <dt><code>LATCH_PIN_H</code></dt>
+      <dd>Lutch pin hight. 2.4-1.6 looks the best values</dd>
+      <dt><code>LATCH_H</code> and <code>LATCH_DEPTH</code></dt>
+      <dd>Lutch hand parameters (hight and depth). I do not recommend use
+      <code>LATCH_H</code> bigger then <code>LATCH_DEPTH</code> and both
+      less then 1.6 and more then 3. Top of the hand will be
+      <code>CASE_WALL</code> depth and <code>LATCH_DEPTH</code> will not be
+      less then <code>CASE_WALL</code>.</dd>
+      <dt><code>CASE_TURN</code></dt>
+      <dd>How many turns minimum needed to open this case.</dd>
+      <dt><code>CASE_TR_W</code></dt>
+      <dd>Width of the case thread.</dd>
+      <dt><code>CASE_TR_L</code></dt>
+      <dd>(Minimum) length of the case thread. If 0 will be calculated
+      automatically</dd>
+      <dt><code>CASE_N</code></dt>
+      <dd>Number of faces of this case. Also it is minimum number of thread
+      starts</dd>
+      <dt><code>CASE_ROUNDING</code></dt>
+      <dd>Radius of case rounding. Used if <code>CASE_ROUNDING_MODE</code>
+      is not "sharp"</dd>
+      <dt><code>CASE_ROUNDING_MODE</code></dt>
+      <dd>
+        <dl>
+          <dt>"sharp"</dt>
+          <dd>No roundings.</dd>
+          <dt>"2d"</dt>
+          <dd>Only side walls.</dd>
+          <dt>"3d"</dt>
+          <dd>Side walls top and bottom (difficult to print).</dd>
+          <dt>"2.5d"</dt>
+          <dd>Side walls with <code>CASE_ROUNDING</code> radius and top and
+          bottom with <code>CASE_WALL</code>.</dd>
+        </dl>
+      </dd>
+      <dt><code>CASE_TR_NN</code></dt>
+      <dd>How many thread starts do per "face". If it is not 1 can be
+      difficult to close case correctly.</dd>
+      <dt><code>CASE_TR_SPACE_RATIO</code></dt>
+      <dd>1 mean as dense thread is possible, more then 1 makes spaces in
+      threads. With small number of faces can be used to make longer and
+      "steeper" thread.</dd>
+      <dt><code>CASE_TAKE</code></dt>
+      <dd>How much pen you will see after opening this case. Depend on how
+      much you need to take the pen from the case.</dd>
+      <dt><code>LATCH_MAX_L</code></dt>
+      <dd>Max latch length, used to limit length and keep the latches stiff.
+      </dd>
+      <dt><code>LATCH_SUPPORT</code></dt>
+      <dd>Construct or not the latches support for 3D printer</dd>
+    </dl>
+
+    <h2>Text setup</h2>
+    <p>Probably fonts and its sizes depend on a computer setup, so just
+    experiment.</p>
+
+    <h2>Pen "model" description</h2>
+    <p><img src="section.png" alt="Section description"
+    style="float:right;width:512px;height:512px;">Pen described as sequence of sections. Each section described with
+    numbered from 1 to 6 sets of variable</p>
+    <dl>
+      <dt><code>PEN_n_D</code></dt>
+      <dd>Cylinder Diameter</dd>
+      <dt><code>PEN_n_L</code></dt>
+      <dd>Cylinder Length (section skipped if 0)</dd>
+      <dt><code>PEN_n_CLIP_DD</code></dt>
+      <dd>Clip overhang (section will be simple cylinder if 0)</dd>
+      <dt><code>PEN_n_CLIP_W</code></dt>
+      <dd>Clip width</dd>
+    </dl>
+    <p>You can see "model" of the pen if you change variable
+    <code>PRESENT</code> to <code>"model"</code> and click on a "preview".</p>
+  </body>
+</html>
